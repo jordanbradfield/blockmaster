@@ -1,5 +1,11 @@
 process.env.GOPATH = __dirname;
 
+var express = require('express');
+var app = express();
+
+var myres;
+
+var outstring;
 var hfc = require('hfc');
 var util = require('util');
 var fs = require('fs');
@@ -25,6 +31,7 @@ var EventUrls = [];
 init();
 
 function init() {
+	console.log("\nin init");
     try {
         config = JSON.parse(fs.readFileSync(__dirname + '/config.json', 'utf8'));
     } catch (err) {
@@ -54,17 +61,22 @@ function init() {
     printNetworkDetails();
     //Check if chaincode is already deployed
     //TODO: Deploy failures aswell returns chaincodeID, How to address such issue?
+	console.log("\nchecking path ...");
+	console.log(chaincodeIDPath);
     if (fileExists(chaincodeIDPath)) {
         // Read chaincodeID and use this for sub sequent Invokes/Queries
         chaincodeID = fs.readFileSync(chaincodeIDPath, 'utf8');
         chain.getUser(newUserName, function(err, user) {
             if (err) throw Error(" Failed to register and enroll " + deployerName + ": " + err);
             userObj = user;
-            invoke();
+           // invoke();
+			query();
         });
     } else {
+		console.log("\nenrollAndRegisterUsers();");
         enrollAndRegisterUsers();
     }
+	console.log("\ninit done.  exiting...");
 }
 
 function setup() {
@@ -153,6 +165,7 @@ function enrollAndRegisterUsers() {
             chain.setDeployWaitTime(config.deployWaitTime);
             console.log("\nDeploying chaincode ...");
             deployChaincode();
+			console.log("\nDeploying chaincode Complete ...");
         });
     });
 }
@@ -173,6 +186,7 @@ function deployChaincode() {
     // Trigger the deploy transaction
     var deployTx = userObj.deploy(deployRequest);
 
+	console.log("about to print results from deploy ...");
     // Print the deploy results
     deployTx.on('complete', function(results) {
         // Deploy request completed successfully
@@ -189,6 +203,7 @@ function deployChaincode() {
         console.log(util.format("\nFailed to deploy chaincode: request=%j, error=%j", deployRequest, err));
         process.exit(1);
     });
+	console.log("\n leaving Deploying section ...");
 }
 
 function invoke() {
@@ -230,8 +245,8 @@ function invoke() {
     });
 }
 
-function query() {
-    var args = getArgs(config.queryRequest);
+function query(res) {
+	var args = getArgs(config.queryRequest);
     // Construct the query request
     var queryRequest = {
         // Name (hash) required for query
@@ -245,17 +260,22 @@ function query() {
     // Trigger the query transaction
     var queryTx = userObj.query(queryRequest);
 
+
     // Print the query results
-    queryTx.on('complete', function(results) {
+    queryTx.on('complete', function(results, myres) {
         // Query completed successfully
         console.log("\nSuccessfully queried  chaincode function: request=%j, value=%s", queryRequest, results.result.toString());
-        process.exit(0);
+		outstring = results.result.toString();
+      //  process.exit(0);
     });
     queryTx.on('error', function(err) {
         // Query failed
         console.log("\nFailed to query chaincode, function: request=%j, error=%j", queryRequest, err);
         process.exit(1);
     });
+    if(res){
+      return res.send(outstring);
+    }
 }
 
 function getArgs(request) {
@@ -273,3 +293,12 @@ function fileExists(filePath) {
         return false;
     }
 }
+
+
+app.get('/', function(req, res){
+  query(res);
+});
+
+app.listen(3000, function() {
+	 console.log('listening');
+});
