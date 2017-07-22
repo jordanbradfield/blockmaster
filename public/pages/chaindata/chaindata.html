@@ -1,4 +1,23 @@
-<link type="text/css" href="./chaindata.css">
+<link rel="stylesheet" type="text/css" href="../../pages/chaindata/chaindata.css">
 <div>
+  <div>
     <h1>Chain Data</h1>
+  </div>
+  <hr>
+  <div>
+    <h3>
+      Your roles:
+    </h3>
+    <ul>
+      <li ng-repeat="role in user.roles track by $index"><b>Role #{{$index + 1}} id: </b>{{role.id}}</li>
+    </ul>
+  </div>
+  <hr>
+  <div>
+    <div>
+      <button ng-repeat="role in roles" ng-disabled="checkifUserCanAccess(role)" class="btn btn-primary rolebuttons">
+        {{role.returns}}
+      </button>
+    </div>
+  </div>
 </div>

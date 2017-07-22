@@ -1,4 +1,4 @@
-<link type="text/css" href="../login.css">
+<link rel="stylesheet" type="text/css" href="../../pages/login/login.css">
 <div class="list-group-item">
     <div id="title">
         <h3>Login to continue</h3>
@@ -14,7 +14,7 @@
         <input type="password" class="form-control" placeholder="Password" ng-model="password">
       </div>
       <div id="submitbutton">
-        <button class="btn btn-success" ng-click="login()">Login</button>
+        <button ng-disabled="!(username && password)" class="btn btn-success" ng-click="login()">Login</button>
       </div>
     </form>
 </div>

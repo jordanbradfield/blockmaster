@@ -4,8 +4,22 @@ angular.module('app').controller('LoginController', ['$scope', '$http', '$locati
       $scope.username; //users login id
       $scope.password; //users password
 
+      /* HARDCODED ROLES, WILL BE CHANGED ONCE WE CAN TALK TO THE DATABASE AND GET THEM THERE */
+      $scope.roles = [
+        {
+          id:"abcd"
+        }
+      ]
+
       $scope.login = function(){
-        console.log($scope.username, $scope.password);
+        $http.post('/login', {uname:$scope.username, secret:$scope.password, roles:$scope.roles}).then(function(res){
+          console.log(res.data);
+          if(res.data.uname){
+            $window.location.href = "#/"
+          }else{
+            $route.reload();
+          }
+        });
       }
 
 

@@ -39,7 +39,14 @@
       <li><a href="#/chain/view/data"><span class="fa fa-link"></span> Chain Data</a></li>
     </ul>
     <ul class="nav navbar-nav navbar-right">
-      <li><a href="#/login"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+      <li ng-if="!(globalUser)"><a href="#/login"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+      <li ng-if="globalUser" class="dropdown">
+        <a class="dropdown-toggle" data-toggle="dropdown" href="">{{globalUser.uname}}
+        <span class="caret"></span></a>
+        <ul class="dropdown-menu">
+          <li ng-if="globalUser"><a href="/logout"><span class="glyphicon glyphicon-log-out"></span> Logout</a></li>
+        </ul>
+      </li>
     </ul>
   </div>
 </nav>

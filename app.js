@@ -7,9 +7,8 @@ var bodyParser = require('body-parser');
 var session = require('express-session'); //used for login sessions
 var index = require('./routes/index'); //back end routes file
 
-
-//var passport = require('passport');
-//require('./config/passport')(passport);
+var passport = require('passport');
+require('./config/passport')(passport);
 
 var app = express();
 
@@ -33,9 +32,9 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'jade');
 
 // required for passport
-//app.use(session({ secret: 'ilovescotchscotchyscotchscotch' })); // session secret
-//app.use(passport.initialize());
-//app.use(passport.session()); // persistent login sessions
+app.use(session({ secret: 'ilovescotchscotchyscotchscotch' })); // session secret
+app.use(passport.initialize());
+app.use(passport.session()); // persistent login sessions
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
@@ -59,7 +58,7 @@ app.use(function(err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
-
+  console.log(err);
   // render the error page
   res.status(err.status || 500);
   res.render('error');

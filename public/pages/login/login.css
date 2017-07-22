@@ -1,3 +1,6 @@
-h3 {
-  color:red;
+form input {
+  margin:10px;
+}
+.list-group-item {
+  padding:30px;
 }
