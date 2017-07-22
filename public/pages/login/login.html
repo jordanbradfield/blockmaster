@@ -1,0 +1,20 @@
+<link type="text/css" href="../login.css">
+<div class="list-group-item">
+    <div id="title">
+        <h3>Login to continue</h3>
+    </div>
+    <hr>
+    <form>
+      <div id="usernamefield">
+        <label><span class="fa fa-user"></span> Username</label>
+        <input type="text" class="form-control" placeholder="Username/email address" ng-model="username">
+      </div>
+      <div id="passwordfield">
+        <label><span class="fa fa-lock"></span> Password</label>
+        <input type="password" class="form-control" placeholder="Password" ng-model="password">
+      </div>
+      <div id="submitbutton">
+        <button class="btn btn-success" ng-click="login()">Login</button>
+      </div>
+    </form>
+</div>

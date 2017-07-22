@@ -1,7 +1,7 @@
 process.env.GOPATH = __dirname;
 
-var express = require('express');
-var app = express();
+//var express = require('express');
+//var app = express();
 
 var myres;
 
