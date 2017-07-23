@@ -2,6 +2,31 @@ var express = require('express');
 var router = express.Router();
 var passport = require('passport');
 var request = require('request');
+var chain = require('../helloblockchain.js');
+
+//hardcoded list of roles will need to be changed to get from the database
+var roles = [
+  {
+    id:"abcd",
+    returns:"Queries A",
+    message:"Querying A in the Blockchain"
+  },
+  {
+    id:"efgh",
+    returns:"Queries B",
+    message:"Querying B in the Blockchain"
+  },
+  {
+    id:"ijkl",
+    returns:"Transfer A to B",
+    message:"Transfering from A to B in the Blockchain"
+  },
+  {
+    id:"mnop",
+    returns:"Transfer B to A",
+    message:"Transfering from B to A in the Blockchain"
+  }
+];
 
 var authenticated = function(req, res, next){
   // if user is authenticated in the session, carry on
@@ -45,25 +70,19 @@ router.get('/user', authenticated, function(req, res){
 
 /* HARDCODED RETURNS A GENERIC LIST OF ROLES BUT WE WOULD GET THESE FROM THE DB */
 router.get('/get/roles', authenticated, function(req, res){
-  var roles = [
-    {
-      id:"abcd",
-      returns:"Queries A"
-    },
-    {
-      id:"efgh",
-      returns:"Queries B"
-    },
-    {
-      id:"ijkl",
-      returns:"Transfer A to B"
-    },
-    {
-      id:"mnop",
-      returns:"Transfer B to A"
-    }
-  ];
   res.send(roles);
+});
+
+router.get('/role/:id', authenticated, function(req, res){
+  for (var i = 0; i < roles.length; i++) {
+    if(req.params.id == roles[i].id){
+      res.send(roles[i]);
+    }
+  }
+});
+
+router.get('/query/chain/:id', authenticated, function(req, res){
+
 });
 
 

@@ -39,6 +39,15 @@ angular.module('app')
                   isAuthenticated:isAuthenticated //user must be logged in to continue
                 }
             })
+            //chain data page that shows data based on a specific query
+            //the id is the id of the specific role
+            .when('/chain/view/data/:id', {
+                templateUrl: '../pages/viewchaindata/viewchaindata.html',
+                controller: 'ViewChainDataController',
+                resolve:{
+                  isAuthenticated:isAuthenticated //user must be logged in to continue
+                }
+            })
             //go to the homepage
             .otherwise({
                 redirectTo: '/'

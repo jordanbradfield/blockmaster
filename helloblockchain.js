@@ -1,7 +1,7 @@
+var exports = module.exports = {};
+
 process.env.GOPATH = __dirname;
 
-//var express = require('express');
-//var app = express();
 
 var myres;
 
@@ -28,9 +28,9 @@ var caUrl;
 var peerUrls = [];
 var EventUrls = [];
 
-init();
+//init();
 
-function init() {
+exports.init = function() {
 	console.log("\nin init");
     try {
         config = JSON.parse(fs.readFileSync(__dirname + '/config.json', 'utf8'));
@@ -70,7 +70,7 @@ function init() {
             if (err) throw Error(" Failed to register and enroll " + deployerName + ": " + err);
             userObj = user;
            // invoke();
-			query();
+					 //query();
         });
     } else {
 		console.log("\nenrollAndRegisterUsers();");
@@ -265,7 +265,8 @@ function query(res) {
     queryTx.on('complete', function(results, myres) {
         // Query completed successfully
         console.log("\nSuccessfully queried  chaincode function: request=%j, value=%s", queryRequest, results.result.toString());
-		outstring = results.result.toString();
+				outstring = results.result.toString();
+				console.log(results);
       //  process.exit(0);
     });
     queryTx.on('error', function(err) {
@@ -273,9 +274,6 @@ function query(res) {
         console.log("\nFailed to query chaincode, function: request=%j, error=%j", queryRequest, err);
         process.exit(1);
     });
-    if(res){
-      return res.send(outstring);
-    }
 }
 
 function getArgs(request) {
@@ -293,12 +291,3 @@ function fileExists(filePath) {
         return false;
     }
 }
-
-
-app.get('/', function(req, res){
-  query(res);
-});
-
-app.listen(3000, function() {
-	 console.log('listening');
-});
