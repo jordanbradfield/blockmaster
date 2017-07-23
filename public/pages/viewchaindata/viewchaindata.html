@@ -1,0 +1,12 @@
+<link rel="stylesheet" type="text/css" href="../../pages/viewchaindata/viewchaindata.css">
+<div>
+    <div ng-if="role">
+        <h1>Talking to chain: <b>{{role.message}}</b></h1>
+    </div>
+    <hr>
+    <div id="notloaded" ng-if="!(chaindata)">
+      <h1>
+        <span class="fa fa-spinner fa-spin"></span>
+      </h1>
+    </div>
+</div>
