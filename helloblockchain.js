@@ -30,7 +30,7 @@ var EventUrls = [];
 
 //init();
 
-exports.init = function() {
+exports.init = function(res) {
 	console.log("\nin init");
     try {
         config = JSON.parse(fs.readFileSync(__dirname + '/config.json', 'utf8'));
@@ -70,7 +70,7 @@ exports.init = function() {
             if (err) throw Error(" Failed to register and enroll " + deployerName + ": " + err);
             userObj = user;
            // invoke();
-					 //query();
+					 //query(res);
         });
     } else {
 		console.log("\nenrollAndRegisterUsers();");
@@ -195,7 +195,7 @@ function deployChaincode() {
         console.log(util.format("\nSuccessfully deployed chaincode: request=%j, response=%j", deployRequest, results));
         // Save the chaincodeID
         fs.writeFileSync(chaincodeIDPath, chaincodeID);
-        invoke();
+        //invoke();
     });
 
     deployTx.on('error', function(err) {
@@ -206,8 +206,8 @@ function deployChaincode() {
 	console.log("\n leaving Deploying section ...");
 }
 
-function invoke() {
-    var args = getArgs(config.invokeRequest);
+exports.invoke = function(res, args) {
+    //var args = getArgs(config.invokeRequest);
     var eh = chain.getEventHub();
     // Construct the invoke request
     var invokeRequest = {
@@ -230,12 +230,12 @@ function invoke() {
     invokeTx.on('complete', function(results) {
         // Invoke transaction completed successfully
         console.log(util.format("\nSuccessfully completed chaincode invoke transaction: request=%j, response=%j", invokeRequest, results));
-        query();
+				outstring = results.result.toString();
+				res.send({query:invokeRequest, value:outstring});
     });
     invokeTx.on('error', function(err) {
         // Invoke transaction submission failed
         console.log(util.format("\nFailed to submit chaincode invoke transaction: request=%j, error=%j", invokeRequest, err));
-        process.exit(1);
     });
 
     //Listen to custom events
@@ -245,8 +245,8 @@ function invoke() {
     });
 }
 
-function query(res) {
-	var args = getArgs(config.queryRequest);
+exports.query = function(res, args) {
+	//var args = getArgs(config.queryRequest);
     // Construct the query request
     var queryRequest = {
         // Name (hash) required for query
@@ -260,19 +260,18 @@ function query(res) {
     // Trigger the query transaction
     var queryTx = userObj.query(queryRequest);
 
-
+		console.log(userObj);
     // Print the query results
     queryTx.on('complete', function(results, myres) {
         // Query completed successfully
         console.log("\nSuccessfully queried  chaincode function: request=%j, value=%s", queryRequest, results.result.toString());
 				outstring = results.result.toString();
-				console.log(results);
-      //  process.exit(0);
+				res.send({query:queryRequest, value:outstring});
     });
     queryTx.on('error', function(err) {
         // Query failed
         console.log("\nFailed to query chaincode, function: request=%j, error=%j", queryRequest, err);
-        process.exit(1);
+				res.send({error:"Failed querying blockchain"});
     });
 }
 

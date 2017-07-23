@@ -2,11 +2,3 @@
   margin:5px;
   display: inline-block;
 }
-.hyperlink {
-  text-decoration: none;
-  color: inherit;
-}
-.hyperlink:hover {
-  text-decoration: none;
-  color:inherit;
-}

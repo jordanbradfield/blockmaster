@@ -4,27 +4,34 @@ var passport = require('passport');
 var request = require('request');
 var chain = require('../helloblockchain.js');
 
+//init out chaincode and deployment
+chain.init();
+
 //hardcoded list of roles will need to be changed to get from the database
 var roles = [
   {
     id:"abcd",
     returns:"Queries A",
-    message:"Querying A in the Blockchain"
+    message:"Querying A in the Blockchain",
+    args:["a"]
   },
   {
     id:"efgh",
     returns:"Queries B",
-    message:"Querying B in the Blockchain"
+    message:"Querying B in the Blockchain",
+    args:["b"]
   },
   {
     id:"ijkl",
     returns:"Transfer A to B",
-    message:"Transfering from A to B in the Blockchain"
+    message:"Transfering from A to B in the Blockchain",
+    args:["a", "b", 5]
   },
   {
     id:"mnop",
     returns:"Transfer B to A",
-    message:"Transfering from B to A in the Blockchain"
+    message:"Transfering from B to A in the Blockchain",
+    args:["b", "a", 5]
   }
 ];
 
@@ -82,7 +89,14 @@ router.get('/role/:id', authenticated, function(req, res){
 });
 
 router.get('/query/chain/:id', authenticated, function(req, res){
-
+  console.log(req.query.args);
+  if(req.query.args.length == 1){
+    var argarr = [req.query.args];
+    chain.query(res, argarr);
+  }else{
+    var argarr = req.query.args;
+    chain.invoke(res, argarr);
+  }
 });
 
 

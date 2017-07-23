@@ -17,8 +17,8 @@
     <div ng-if="user">
       <!-- if user has been returned then check to see if the user has the role
       hence the ng-if, jus tmaking sure that the user has been returned from the backend -->
-      <button ng-repeat="role in roles" ng-disabled="checkifUserCanAccess(role)" class="btn btn-primary rolebuttons">
-        <a class="hyperlink" href="#/chain/view/data/{{role.id}}">{{role.returns}}</a>
+      <button ng-click="redirectToChainCode(role)" ng-repeat="role in roles" ng-disabled="checkifUserCanAccess(role)" class="btn btn-primary rolebuttons">
+        {{role.returns}}
       </button>
     </div>
   </div>

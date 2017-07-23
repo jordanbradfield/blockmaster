@@ -8,6 +8,12 @@ angular.module('app').controller('LoginController', ['$scope', '$http', '$locati
       $scope.roles = [
         {
           id:"abcd"
+        },
+        {
+          id:"efgh"
+        },
+        {
+          id:"mnop"
         }
       ]
 

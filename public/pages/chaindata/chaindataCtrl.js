@@ -20,9 +20,13 @@ angular.module('app').controller('ChainDataController', ['$scope', '$http', '$lo
           for (var i = 0; i < $scope.user.roles.length; i++) {
             if($scope.user.roles[i].id == role.id){ //user has this role
               return false; //returning false because checking if the button should be disabled
-            }else{
-              return true; //user doesnt have this role return true to disable button
             }
           }
+          return true; //user doesnt have this role return true to disable button
+        }
+
+        //called when user clicks a button
+        $scope.redirectToChainCode = function(role){
+          $window.location.href = "#/chain/view/data/" + role.id;
         }
   }]);

@@ -4,9 +4,30 @@
         <h1>Talking to chain: <b>{{role.message}}</b></h1>
     </div>
     <hr>
-    <div id="notloaded" ng-if="!(chaindata)">
+    <div id="notloaded" ng-if="!(chaindata) && !(error)">
       <h1>
         <span class="fa fa-spinner fa-spin"></span>
       </h1>
+    </div>
+    <div ng-if="chaindata">
+      <div>
+        <b>Method: </b><i>{{chaindata.query.fcn}}</i>
+      </div>
+      <div>
+        <b>Chaincode ID: </b><i>{{chaindata.query.chaincodeID}}</i>
+      </div>
+      <div>
+        <b>Arguments: </b>
+        <ul>
+          <li ng-repeat="arg in chaindata.query.args"><i>{{arg}}</i></li>
+        </ul>
+      </div>
+      <hr>
+      <div>
+        <h3><b>Value: </b><i>{{chaindata.value}}</i></h3>
+      </div>
+    </div>
+    <div ng-if="error">
+      <h3>{{error}}</h3>
     </div>
 </div>
