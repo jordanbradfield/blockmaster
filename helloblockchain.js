@@ -260,7 +260,6 @@ exports.query = function(res, args) {
     // Trigger the query transaction
     var queryTx = userObj.query(queryRequest);
 
-		console.log(userObj);
     // Print the query results
     queryTx.on('complete', function(results, myres) {
         // Query completed successfully
