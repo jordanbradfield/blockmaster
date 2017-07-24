@@ -15,6 +15,7 @@ module.exports = function(passport) {
 
     // used to serialize the user for the session
     passport.serializeUser(function(user, done) {
+      console.log("Ser: ", user, done);
         done(null, user);
     });
 
@@ -50,8 +51,8 @@ module.exports = function(passport) {
             passReqToCallback: true // allows us to pass back the entire request to the callback
         },
         function(req, email, password, done) {
+          console.log("IN PASSPORT CODE", email);
           var user = {uname:email, roles:req.body.roles};
-          console.log("login user:", user);
                 return done(null, user);
 
         }));

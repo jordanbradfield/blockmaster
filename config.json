@@ -1,6 +1,6 @@
 {
    "chainName":"hello-world",
-   "deployWaitTime":"60",
+   "deployWaitTime":"180",
    "user": {
 	"username": "JohnDoe",
         "affiliation" : "group1"
@@ -16,17 +16,23 @@
       ]
    },
    "invokeRequest":{
-      "functionName":"invoke",
+      "functionName":"authenticate",
       "args":[
-         "a",
-         "b",
-         "10"
+         "David",
+         "Password1"
       ]
    },
    "queryRequest":{
-      "functionName":"query",
+      "functionName":"authenticate",
       "args":[
-         "a"
-      ]
+         "David",
+         "Password1"
+		]
+   },
+   "queryButton1":{
+      "functionName":"button1",
+      "args":[
+         "David"
+		]
    }
 }

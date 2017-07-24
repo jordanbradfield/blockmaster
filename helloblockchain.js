@@ -22,6 +22,7 @@ var newUserName;
 var chaincodeID;
 var certFile = 'us.blockchain.ibm.com.cert';
 var chaincodeIDPath = __dirname + "/chaincodeID";
+var passport = require('passport');
 
 
 var caUrl;
@@ -245,8 +246,7 @@ exports.invoke = function(res, args) {
     });
 }
 
-exports.query = function(res, args) {
-	//var args = getArgs(config.queryRequest);
+exports.queryLogin = function(req, res, args, next) {
     // Construct the query request
     var queryRequest = {
         // Name (hash) required for query
@@ -263,15 +263,58 @@ exports.query = function(res, args) {
     // Print the query results
     queryTx.on('complete', function(results, myres) {
         // Query completed successfully
-        console.log("\nSuccessfully queried  chaincode function: request=%j, value=%s", queryRequest, results.result.toString());
-				outstring = results.result.toString();
-				res.send({query:queryRequest, value:outstring});
+				var roles = results.result.toString();
+				if(roles){ //returned a user
+					req.body.roles = JSON.parse(roles);
+					loginUser(req, res, next)
+				}else{
+					res.redirect('/#/login')
+				}
     });
     queryTx.on('error', function(err) {
         // Query failed
         console.log("\nFailed to query chaincode, function: request=%j, error=%j", queryRequest, err);
-				res.send({error:"Failed querying blockchain"});
+				res.send(err);
     });
+}
+
+exports.query = function(res, args){
+	console.log(args);
+	var queryRequest = {
+			// Name (hash) required for query
+			chaincodeID: chaincodeID,
+			// Function to trigger
+			fcn: config.queryButton1.functionName,
+			// Existing state variable to retrieve
+			args: args
+	};
+
+	// Trigger the query transaction
+	var queryTx = userObj.query(queryRequest);
+
+	// Print the query results
+	queryTx.on('complete', function(results, myres) {
+			// Query completed successfully
+			console.log(results);
+			res.send({results:results.result.toString(), request:queryRequest});
+	});
+	queryTx.on('error', function(err) {
+			// Query failed
+			console.log("\nFailed to query chaincode, function: request=%j, error=%j", queryRequest, err);
+			res.send(err);
+	});
+}
+
+function loginUser(req, res, next){
+	passport.authenticate('local-login', function(err, user, info) {
+			req.logIn(user, function(err) { //logs the user in with function from the passport library
+					if (err) {
+						console.log(err);
+							return res.send(err);
+					}
+					return res.send(user);
+			});
+	})(req, res, next);
 }
 
 function getArgs(request) {

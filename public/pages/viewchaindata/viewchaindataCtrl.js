@@ -16,17 +16,15 @@ angular.module('app').controller('ViewChainDataController', ['$scope', '$http', 
     //currently returning hardcoded data
     $http.get('/role/' + $scope.roleId).then(function(res) {
       $scope.role = res.data;
+      console.log($scope.role);
       getData();
     });
 
     var getData = function() {
       console.log($scope.role.args);
       $http({
-        url: '/query/chain/' + $scope.roleId,
-        method: "GET",
-        params: {
-          args: $scope.role.args
-        }
+        url: '/query/chain/' + $scope.role.args[0],
+        method: "GET"
       }).then(function(res){
         console.log(res.data);
         if(res.data.error){

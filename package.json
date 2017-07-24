@@ -21,24 +21,25 @@
   },
   "license": "Apache-2.0",
   "dependencies": {
-    "hfc": "^0.6.5",
+    "bcrypt-nodejs": "latest",
     "body-parser": "~1.17.1",
     "cookie-parser": "~1.4.3",
+    "curl": "0.1.4",
     "debug": "~2.6.3",
     "express": "~4.15.2",
-    "jade": "~1.11.0",
-    "morgan": "~1.8.1",
-    "serve-favicon": "~2.4.2",
-    "bcrypt-nodejs": "latest",
     "express-jwt": "^3.4.0",
     "express-session": "^1.14.0",
+    "hfc": "^0.6.5",
+    "jade": "~1.11.0",
     "jquery": "^3.1.0",
     "method-override": "~1.0.0",
+    "mongodb": "2.2.26",
     "mongoose": "~4.5.0",
-    "mongodb":"2.2.26",
     "morgan": "~1.7.0",
+    "node-libcurl": "^1.1.0",
     "passport": "^0.3.2",
     "passport-local": "^1.0.0",
-    "request": "^2.74.0"
+    "request": "^2.74.0",
+    "serve-favicon": "~2.4.2"
   }
 }

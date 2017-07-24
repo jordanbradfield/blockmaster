@@ -9,7 +9,7 @@
       Your roles:
     </h3>
     <ul>
-      <li ng-repeat="role in user.roles track by $index"><b>Role #{{$index + 1}} id: </b>{{role.id}}</li>
+      <li ng-repeat="role in user.roles track by $index"><b>Role #{{$index + 1}} id: </b>{{role}}</li>
     </ul>
   </div>
   <hr>
@@ -18,7 +18,7 @@
       <!-- if user has been returned then check to see if the user has the role
       hence the ng-if, jus tmaking sure that the user has been returned from the backend -->
       <button ng-click="redirectToChainCode(role)" ng-repeat="role in roles" ng-disabled="checkifUserCanAccess(role)" class="btn btn-primary rolebuttons">
-        {{role.returns}}
+        {{role.name}}
       </button>
     </div>
   </div>

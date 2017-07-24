@@ -1,5 +1,5 @@
 <link rel="stylesheet" type="text/css" href="../../pages/viewchaindata/viewchaindata.css">
-<div>
+<div id="chainDataPage">
     <div ng-if="role">
         <h1>Talking to chain: <b>{{role.message}}</b></h1>
     </div>
@@ -11,20 +11,20 @@
     </div>
     <div ng-if="chaindata">
       <div>
-        <b>Method: </b><i>{{chaindata.query.fcn}}</i>
+        <b>Method: </b><i>{{chaindata.request.fcn}}</i>
       </div>
       <div>
-        <b>Chaincode ID: </b><i>{{chaindata.query.chaincodeID}}</i>
+        <b>Chaincode ID: </b><i>{{chaindata.request.chaincodeID}}</i>
       </div>
       <div>
         <b>Arguments: </b>
         <ul>
-          <li ng-repeat="arg in chaindata.query.args"><i>{{arg}}</i></li>
+          <li ng-repeat="arg in chaindata.request.args"><i>{{arg}}</i></li>
         </ul>
       </div>
       <hr>
       <div>
-        <h3><b>Value: </b><i>{{chaindata.value}}</i></h3>
+        <h3><b>Value: </b><i>{{chaindata.results}}</i></h3>
       </div>
     </div>
     <div ng-if="error">

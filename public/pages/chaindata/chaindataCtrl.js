@@ -15,18 +15,18 @@ angular.module('app').controller('ChainDataController', ['$scope', '$http', '$lo
           $scope.roles = res.data;
         });
 
-        //called form ng-disabled form the list of buttons on the chain data page
         $scope.checkifUserCanAccess = function(role){
-          for (var i = 0; i < $scope.user.roles.length; i++) {
-            if($scope.user.roles[i].id == role.id){ //user has this role
-              return false; //returning false because checking if the button should be disabled
-            }
+          if($scope.user.roles.indexOf(role.name)){
+            return true;
+          }else{
+            return false;
           }
-          return true; //user doesnt have this role return true to disable button
         }
 
         //called when user clicks a button
         $scope.redirectToChainCode = function(role){
-          $window.location.href = "#/chain/view/data/" + role.id;
+          if($scope.checkifUserCanAccess(role.name)){
+            $window.location.href = "#/chain/view/data/" + role.name;
+          }
         }
   }]);

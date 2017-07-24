@@ -5,6 +5,7 @@ angular.module('app').controller('HomeController', ['$scope', '$http', '$locatio
 
       $http.get('/user').then(function(res){
         $scope.user = res.data;
+        console.log($scope.user);
       });
 
     }
